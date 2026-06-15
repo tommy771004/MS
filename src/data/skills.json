@@ -1,0 +1,47 @@
+[
+  {
+    "skillId": 1001004,
+    "name": "劍氣縱橫 Power Strike",
+    "type": "ACTIVE",
+    "icon": "skill_power_strike",
+    "mpCost": 8,
+    "cooldownMs": 700,
+    "damageMultiplier": 2.2,
+    "maxTargets": 1,
+    "range": 96,
+    "description": "對單一目標造成 220% 的強力一擊。"
+  },
+  {
+    "skillId": 1001005,
+    "name": "怒吼斬 Slash Blast",
+    "type": "ACTIVE",
+    "icon": "skill_slash_blast",
+    "mpCost": 14,
+    "cooldownMs": 1100,
+    "damageMultiplier": 1.4,
+    "maxTargets": 6,
+    "range": 132,
+    "description": "橫掃前方範圍，最多命中 6 隻怪物，各造成 140% 傷害。"
+  },
+  {
+    "skillId": 1000002,
+    "name": "鐵壁 Iron Body",
+    "type": "PASSIVE",
+    "icon": "skill_iron_body",
+    "mpCost": 0,
+    "cooldownMs": 0,
+    "passiveStats": { "incMaxHP": 60 },
+    "description": "被動：最大 HP +60。"
+  },
+  {
+    "skillId": 1101006,
+    "name": "戰吼 Rage",
+    "type": "BUFF",
+    "icon": "skill_rage",
+    "mpCost": 20,
+    "cooldownMs": 6000,
+    "durationMs": 12000,
+    "buffStats": { "incPAD": 20 },
+    "description": "增益：12 秒內物理攻擊力 +20。"
+  }
+]
