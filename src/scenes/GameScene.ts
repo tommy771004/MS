@@ -85,6 +85,10 @@ export class GameScene extends Phaser.Scene {
     this.stats.on('death', () => this.onPlayerDeath());
     this.stats.on('levelup', (lvl: number) => this.toast(this.player.x, this.player.y - 70, `LEVEL UP! Lv.${lvl}`, Palette.coin));
 
+    // Reflect equipped gear on the paper-doll, and keep it in sync on re-equip.
+    this.applyEquipVisual();
+    this.inventory.on('equip', () => this.applyEquipVisual());
+
     // --- Monsters & drops ---------------------------------------------------
     this.monsters = this.physics.add.group({ runChildUpdate: false });
     this.drops = this.physics.add.group({ allowGravity: true });
@@ -188,9 +192,14 @@ export class GameScene extends Phaser.Scene {
     this.inventory.equip(1002000);
     this.inventory.add(1010000, 1); // leather cap
     this.inventory.equip(1010000);
+    this.inventory.add(1040002, 1); // cotton shirt (top)
+    this.inventory.equip(1040002);
+    this.inventory.add(1061000, 1); // blue shorts (bottom)
+    this.inventory.equip(1061000);
+    this.inventory.add(1050000, 1); // green overall — equip from the bag to see the pants hide
     this.inventory.add(2000000, 20); // red potions
     this.inventory.add(2000001, 20); // blue potions
-    this.inventory.addMesos(100);
+    this.inventory.addMesos(1500);
 
     this.skills.learn(1000002); // passive iron body
     this.skills.learn(1001004); // power strike
@@ -203,6 +212,29 @@ export class GameScene extends Phaser.Scene {
 
   private refreshEquipBonus(): void {
     this.stats.setEquipBonus(this.inventory.equippedStats().filter((s): s is NonNullable<typeof s> => !!s));
+  }
+
+  /** Sync equipped gear onto the player's paper-doll z-layers (incl. vslot locks). */
+  private applyEquipVisual(): void {
+    const eq = this.inventory.equipped;
+
+    // Weapon swings with the arm group; it has no slot-lock.
+    this.player.avatar.setWeapon(eq.weapon != null ? (getItem(eq.weapon).worn ?? 'weapon_sword') : null);
+
+    // Worn clothing layers. The overall's vslot covers both Ma+Pn, so equipping
+    // it makes Avatar.refreshLocks hide the separate pants layer.
+    this.setEquipLayer('top', eq.top, 0, 4); // shirt or overall
+    this.setEquipLayer('pants', eq.bottom, 0, 4); // separate pants
+    this.setEquipLayer('capOverHair', eq.hat, 0, -22);
+  }
+
+  private setEquipLayer(layerZ: string, itemId: number | undefined, x: number, y: number): void {
+    if (itemId == null) {
+      this.player.avatar.setLayer(layerZ, null);
+      return;
+    }
+    const def = getItem(itemId);
+    this.player.avatar.setLayer(layerZ, def.worn ?? null, { x, y, vslot: def.vslot });
   }
 
   // ---- Monsters ------------------------------------------------------------
