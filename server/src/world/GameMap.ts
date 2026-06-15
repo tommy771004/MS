@@ -1,5 +1,4 @@
 import type { PlayerEntity, MonsterEntity } from './types.ts';
-import type { Character } from '../db/models.ts';
 import type { CharacterRepo } from '../db/characters.ts';
 import { getMonsterData } from '../db/gameData.ts';
 import { rollServerDamage, expToNext } from './damage.ts';
