@@ -4,6 +4,7 @@ import { randomIv, packetLength, PROTOCOL_VERSION } from '../crypt/iv.ts';
 import { PacketWriter } from '../packet/PacketWriter.ts';
 import { PacketReader } from '../packet/PacketReader.ts';
 import { dispatch } from './router.ts';
+import { logPacket } from './packetLog.ts';
 import type { Account, Character } from '../db/models.ts';
 import type { PlayerEntity } from '../world/types.ts';
 import type { AccountRepo } from '../db/accounts.ts';
@@ -82,6 +83,7 @@ export class Connection {
       const packet = this.cipher.decrypt(Buffer.from(body));
       const reader = new PacketReader(packet);
       const opcode = reader.readShort();
+      logPacket('recv', this.id, opcode, packet);
       try {
         dispatch(this, opcode, reader);
       } catch (err) {
@@ -93,6 +95,7 @@ export class Connection {
   /** Encrypt and send a raw packet (opcode already written into it). */
   send(packet: Buffer): void {
     if (this.socket.destroyed) return;
+    if (packet.length >= 2) logPacket('send', this.id, packet.readUInt16LE(0), packet);
     this.socket.write(this.cipher.encrypt(packet));
   }
 
