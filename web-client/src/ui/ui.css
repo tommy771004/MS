@@ -1,0 +1,274 @@
+:root {
+  color-scheme: dark;
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: #0b0d12;
+  color: #e7e9ee;
+  font-family: 'Segoe UI', 'Microsoft JhengHei', system-ui, sans-serif;
+}
+#root {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 14px;
+}
+.brand {
+  font-size: 14px;
+  letter-spacing: 0.4px;
+  color: #c8cdda;
+}
+.note {
+  font-size: 11px;
+  color: #6f7890;
+}
+
+/* The composition root: WebGL canvas + absolutely-positioned DOM overlays. */
+.stage {
+  position: relative;
+  width: 960px;
+  height: 540px;
+  border: 1px solid #2a2f3a;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+.game-canvas,
+.game-canvas canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+/* Overlays sit above the canvas and (mostly) ignore the pointer. */
+.damage-layer,
+.hud,
+.hint {
+  position: absolute;
+  pointer-events: none;
+}
+
+/* ---- Damage numbers ---- */
+.damage-layer {
+  inset: 0;
+  overflow: hidden;
+}
+.dmg {
+  position: absolute;
+  transform: translate(-50%, 0);
+  font-family: 'Arial Black', Arial, sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  text-shadow: 0 0 3px #000, 1px 1px 0 #3a1500;
+  animation: floatUp 0.85s ease-out forwards;
+}
+.dmg.enemy {
+  color: #ffe45e;
+}
+.dmg.player {
+  color: #ff5566;
+}
+.dmg.crit {
+  font-size: 28px;
+  color: #ff7b3d;
+}
+@keyframes floatUp {
+  0% {
+    transform: translate(-50%, 0) scale(0.6);
+    opacity: 1;
+  }
+  25% {
+    transform: translate(-50%, -10px) scale(1.1);
+  }
+  100% {
+    transform: translate(-50%, -48px) scale(1);
+    opacity: 0;
+  }
+}
+
+/* ---- HUD (HP/MP/EXP) ---- */
+.hud {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: linear-gradient(transparent, rgba(8, 11, 18, 0.92) 40%);
+}
+.level-badge {
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #2a3a55;
+  border: 2px solid #6fa8dc;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 13px;
+  color: #ffe45e;
+}
+.bars {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 460px;
+}
+.bar {
+  position: relative;
+  height: 15px;
+  background: #11151d;
+  border: 1px solid #000;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.bar.exp {
+  height: 11px;
+}
+.bar-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  height: 100%;
+  transition: width 0.18s ease-out;
+}
+.bar-fill.hp {
+  background: linear-gradient(#ff6b78, #ff3b4e);
+}
+.bar-fill.mp {
+  background: linear-gradient(#5fa9f5, #2f86e0);
+}
+.bar-fill.xp {
+  background: linear-gradient(#ffe07a, #ffcf3f);
+}
+.bar-label {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+  color: #fff;
+  text-shadow: 0 1px 2px #000;
+}
+
+.hint {
+  left: 50%;
+  top: 8px;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: #cdd4e2;
+  background: rgba(8, 11, 18, 0.6);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+.hint b {
+  color: #ffe45e;
+}
+
+/* ---- Chat ---- */
+.chat {
+  position: absolute;
+  left: 10px;
+  bottom: 64px;
+  width: 280px;
+  pointer-events: auto;
+}
+.chat-log {
+  max-height: 110px;
+  overflow-y: auto;
+  font-size: 12px;
+  line-height: 1.5;
+  background: rgba(8, 11, 18, 0.55);
+  border-radius: 6px;
+  padding: 6px 8px;
+}
+.chat-line.system {
+  color: #ffd24d;
+}
+.chat-form {
+  margin-top: 4px;
+}
+.chat-input {
+  width: 100%;
+  padding: 5px 8px;
+  font-size: 12px;
+  color: #e7e9ee;
+  background: rgba(8, 11, 18, 0.85);
+  border: 1px solid #3a4660;
+  border-radius: 6px;
+  outline: none;
+}
+.chat-input:focus {
+  border-color: #6fa8dc;
+}
+
+/* ---- Inventory ---- */
+.inv-panel {
+  position: absolute;
+  right: 12px;
+  top: 44px;
+  width: 232px;
+  background: rgba(16, 21, 31, 0.97);
+  border: 1px solid #47506a;
+  border-radius: 8px;
+  padding: 10px;
+  pointer-events: auto;
+}
+.inv-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+.inv-close {
+  background: none;
+  border: none;
+  color: #9fb0cc;
+  cursor: pointer;
+  font-size: 12px;
+}
+.inv-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+.inv-slot {
+  position: relative;
+  aspect-ratio: 1;
+  background: #1a2130;
+  border: 1px solid #3a4660;
+  border-radius: 6px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+.inv-slot:hover {
+  border-color: #6fa8dc;
+}
+.inv-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+}
+.inv-qty {
+  position: absolute;
+  right: 3px;
+  bottom: 2px;
+  font-size: 10px;
+  text-shadow: 0 1px 2px #000;
+}
+.inv-hint {
+  margin-top: 8px;
+  font-size: 11px;
+  color: #8a93a8;
+}
