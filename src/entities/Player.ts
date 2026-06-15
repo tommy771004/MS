@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { Physics, PlayerBody, Combat, Depth } from '../config';
 import { StateMachine, type State } from './StateMachine';
+import { Avatar } from './Avatar';
 import type { StatManager } from '../systems/StatManager';
 
 /** Per-frame input snapshot read from the keyboard. */
@@ -53,10 +54,10 @@ export class Player extends Phaser.GameObjects.Container {
   /** True while attached to a ladder/rope. */
   isClimbing = false;
 
+  /** Data-driven paper-doll rig (z-layered like MapleSalon2's renderer). */
+  readonly avatar: Avatar;
   private readonly rig: Phaser.GameObjects.Container;
   private readonly armRig: Phaser.GameObjects.Container;
-  private readonly torso: Phaser.GameObjects.Sprite;
-  private readonly head: Phaser.GameObjects.Sprite;
 
   private readonly fsm: StateMachine<Player>;
   private readonly keys: {
@@ -89,16 +90,10 @@ export class Player extends Phaser.GameObjects.Container {
     super(scene, x, y);
     this.stats = stats;
 
-    // --- Paper-doll rig (design.md §2.2) ---
-    this.torso = scene.add.sprite(0, 4, 'player_torso');
-    this.head = scene.add.sprite(0, -14, 'player_head');
-
-    this.armRig = scene.add.container(6, -2);
-    const arm = scene.add.sprite(0, 6, 'player_arm');
-    const weapon = scene.add.sprite(3, 20, 'weapon_sword');
-    this.armRig.add([arm, weapon]);
-
-    this.rig = scene.add.container(0, 0, [this.torso, this.head, this.armRig]);
+    // --- Paper-doll rig (design.md §2.2): z-layered Avatar ---
+    this.avatar = new Avatar(scene);
+    this.rig = this.avatar;
+    this.armRig = this.avatar.armGroup;
     this.add(this.rig);
 
     scene.add.existing(this);
@@ -261,7 +256,7 @@ export class Player extends Phaser.GameObjects.Container {
   }
 
   private flashTint(color: number, durationMs: number): void {
-    const parts = [this.torso, this.head];
+    const parts = this.avatar.tintParts;
     parts.forEach((p) => p.setTint(color));
     this.scene.tweens.addCounter({
       from: 0,
