@@ -29,6 +29,14 @@ export interface ItemDef {
   reqLevel?: number;
   /** Equip slot for EQUIP items. */
   slot?: 'weapon' | 'hat' | 'top' | 'bottom';
+  /** Texture key for the worn (paper-doll) sprite of an EQUIP item. */
+  worn?: string;
+  /**
+   * MapleStory "visible slot" codes the worn item occupies (e.g. `["Ma"]` top,
+   * `["Pn"]` pants, `["Ma","Pn"]` overall). Drives the avatar's slot-lock so an
+   * overall hides the separate pants. See Avatar.refreshLocks.
+   */
+  vslot?: string[];
   stats?: ItemStats;
   consume?: ItemConsumeEffect;
   /** Max items that fit in a single inventory slot. */
