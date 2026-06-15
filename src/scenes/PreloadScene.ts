@@ -19,6 +19,7 @@ export class PreloadScene extends Phaser.Scene {
     this.makeTiles();
     this.makePlayerParts();
     this.makeWeapons();
+    this.makeEquips();
     this.makeMonsters();
     this.makeNpc();
     this.makeDropIcons();
@@ -123,12 +124,14 @@ export class PreloadScene extends Phaser.Scene {
   // ---- Player paper-doll parts (design.md §2.2) ---------------------------
 
   private makePlayerParts(): void {
-    // Torso: shirt over pants.
-    this.bake('player_torso', 28, 32, (g) => {
-      g.fillStyle(Palette.shirt, 1).fillRoundedRect(2, 0, 24, 20, 5);
-      g.fillStyle(0x2f86e0, 1).fillRect(2, 14, 24, 4);
-      g.fillStyle(Palette.pants, 1).fillRect(4, 18, 20, 14);
-      g.fillStyle(0x202b40, 1).fillRect(13, 20, 2, 12);
+    // Bare body: skin torso, underwear, skin legs. Clothes are worn z-layers
+    // (equip_shirt / equip_pants / equip_overall), composed by the Avatar.
+    this.bake('player_body', 28, 32, (g) => {
+      g.fillStyle(Palette.skin, 1).fillRoundedRect(2, 0, 24, 20, 5); // torso
+      g.fillStyle(0xe6a878, 1).fillRect(2, 13, 24, 2); // waist shade
+      g.fillStyle(0x42506e, 1).fillRect(5, 18, 18, 7); // shorts
+      g.fillStyle(Palette.skin, 1).fillRect(6, 23, 6, 9).fillRect(16, 23, 6, 9); // legs
+      g.fillStyle(0xe6a878, 1).fillRect(13, 23, 2, 9); // leg gap shade
     });
 
     // Head: skin with hair cap and two eyes.
@@ -161,6 +164,50 @@ export class PreloadScene extends Phaser.Scene {
       // handle
       g.fillStyle(0x6a4a2a, 1).fillRect(5, 36, 4, 10);
       g.lineStyle(1, Palette.weaponEdge, 1).strokeRect(5, 0, 4, 34);
+    });
+  }
+
+  // ---- Worn equipment layers (paper-doll, see Avatar / zmap) --------------
+
+  private makeEquips(): void {
+    // A worn leather cap that sits on top of the head (layer "capOverHair").
+    this.bake('equip_cap', 30, 18, (g) => {
+      g.fillStyle(0x6a4a2a, 1).fillEllipse(15, 13, 30, 9); // brim
+      g.fillStyle(0x8a5a30, 1).fillRoundedRect(6, 1, 18, 12, 5); // dome
+      g.fillStyle(0x5a3a20, 1).fillRect(6, 10, 18, 3); // band
+      g.fillStyle(0xa6713e, 1).fillRect(9, 3, 5, 4); // highlight
+    });
+
+    // Worn clothing — same 28x32 frame as the body, layered over it at (0,4).
+    // Shirt (top, vslot Ma) covers the upper torso only...
+    this.bake('equip_shirt', 28, 32, (g) => {
+      g.fillStyle(Palette.shirt, 1).fillRoundedRect(2, 0, 24, 20, 5);
+      g.fillStyle(0x2f86e0, 1).fillRect(2, 14, 24, 4);
+      g.fillStyle(0x9cd2ff, 0.5).fillRect(5, 2, 4, 14);
+    });
+    // ...pants (bottom, vslot Pn) cover the hips and legs...
+    this.bake('equip_pants', 28, 32, (g) => {
+      g.fillStyle(Palette.pants, 1).fillRect(4, 18, 20, 7);
+      g.fillStyle(Palette.pants, 1).fillRect(6, 23, 7, 9).fillRect(15, 23, 7, 9);
+      g.fillStyle(0x202b40, 1).fillRect(13, 20, 2, 12);
+    });
+    // ...and the overall (top, vslot Ma+Pn) is one piece that covers both, so
+    // the slot-lock hides the separate pants while it's worn.
+    this.bake('equip_overall', 28, 32, (g) => {
+      g.fillStyle(0x2f8f5a, 1).fillRoundedRect(2, 0, 24, 28, 5);
+      g.fillStyle(0x247048, 1).fillRect(2, 14, 24, 4);
+      g.fillStyle(0x9be0b8, 0.5).fillRect(5, 2, 4, 24);
+      g.fillStyle(0xf2e2c4, 1).fillRect(11, 1, 6, 4);
+      g.fillStyle(0x2f8f5a, 1).fillRect(6, 26, 7, 6).fillRect(15, 26, 7, 6);
+    });
+
+    // Steel blade variant — swapped onto the arm when the Steel Blade is equipped.
+    this.bake('weapon_sword_steel', 14, 46, (g) => {
+      g.fillStyle(0xbcd0ff, 1).fillRect(5, 0, 4, 34);
+      g.fillStyle(0xffffff, 0.8).fillRect(5, 0, 2, 34);
+      g.fillStyle(0xc9a23a, 1).fillRect(1, 32, 12, 4);
+      g.fillStyle(0x6a4a2a, 1).fillRect(5, 36, 4, 10);
+      g.lineStyle(1, 0x88a0d0, 1).strokeRect(5, 0, 4, 34);
     });
   }
 
@@ -251,6 +298,21 @@ export class PreloadScene extends Phaser.Scene {
       g.fillStyle(0x7a5230, 1).fillEllipse(14, 20, 24, 8);
       g.fillStyle(0x9a6a3e, 1).fillRoundedRect(6, 6, 16, 12, 4);
       g.fillStyle(0x5a3a20, 1).fillRect(6, 15, 16, 3);
+    });
+
+    this.bake('icon_shirt', ICON, ICON, (g) => {
+      g.fillStyle(Palette.shirt, 1).fillRoundedRect(5, 6, 18, 15, 4);
+      g.fillStyle(0x2f86e0, 1).fillRect(5, 16, 18, 5);
+      g.fillStyle(0x9cd2ff, 0.6).fillRect(8, 8, 3, 9);
+    });
+    this.bake('icon_pants', ICON, ICON, (g) => {
+      g.fillStyle(Palette.pants, 1).fillRect(7, 6, 14, 16);
+      g.fillStyle(0x202b40, 1).fillRect(13, 8, 2, 14);
+    });
+    this.bake('icon_overall', ICON, ICON, (g) => {
+      g.fillStyle(0x2f8f5a, 1).fillRoundedRect(6, 4, 16, 20, 4);
+      g.fillStyle(0xf2e2c4, 1).fillRect(11, 4, 6, 3);
+      g.fillStyle(0x247048, 1).fillRect(6, 14, 16, 3);
     });
   }
 
