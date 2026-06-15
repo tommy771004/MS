@@ -1,0 +1,68 @@
+{
+  "accounts": [
+    {
+      "id": 1,
+      "username": "heroA",
+      "passwordHash": "ae59d727c016a8f0a67529fddeb80aa1:0e353064d94e9ffafe5227438abac3417045c4168ba0272505a2f177c3d81f20",
+      "createdAt": 1781493937370
+    },
+    {
+      "id": 2,
+      "username": "mageB",
+      "passwordHash": "a53330d6338e7f43e082c716393d8ce1:b66039399b6e87fa0d0112ab7d4772b49cfdb0ea6db484c804f00eddf3cfe146",
+      "createdAt": 1781493937450
+    }
+  ],
+  "characters": [
+    {
+      "id": 1,
+      "accountId": 1,
+      "name": "HeroA",
+      "level": 1,
+      "exp": 8,
+      "job": 0,
+      "str": 12,
+      "dex": 6,
+      "int": 4,
+      "luk": 5,
+      "hp": 100,
+      "maxHp": 100,
+      "mp": 50,
+      "maxMp": 50,
+      "mesos": 100,
+      "gender": 0,
+      "hair": 30000,
+      "skin": 0,
+      "mapId": 100000000,
+      "x": 200,
+      "y": 560
+    },
+    {
+      "id": 2,
+      "accountId": 2,
+      "name": "MageB",
+      "level": 1,
+      "exp": 0,
+      "job": 0,
+      "str": 12,
+      "dex": 6,
+      "int": 4,
+      "luk": 5,
+      "hp": 100,
+      "maxHp": 100,
+      "mp": 50,
+      "maxMp": 50,
+      "mesos": 100,
+      "gender": 1,
+      "hair": 30030,
+      "skin": 1,
+      "mapId": 100000000,
+      "x": 140,
+      "y": 540
+    }
+  ],
+  "seq": {
+    "account": 2,
+    "character": 2
+  }
+}
