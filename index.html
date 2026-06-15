@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🍁 楓之谷 Clone — MapleStory-style RPG Prototype</title>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: #0b0d12;
+        color: #e7e9ee;
+        font-family: "Segoe UI", "Microsoft JhengHei", system-ui, sans-serif;
+        overflow: hidden;
+      }
+      #app {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        gap: 10px;
+      }
+      #game {
+        border: 1px solid #2a2f3a;
+        border-radius: 8px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+        line-height: 0;
+      }
+      #game canvas {
+        border-radius: 8px;
+      }
+      .hint {
+        font-size: 12px;
+        color: #8a90a0;
+        letter-spacing: 0.3px;
+      }
+      .hint b {
+        color: #c8cdda;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div id="game"></div>
+      <div class="hint">
+        移動 <b>← →</b> · 跳躍 <b>Alt / Space</b> · 攻擊 <b>Ctrl / X</b> · 趴下 <b>↓</b> ·
+        下穿平台 <b>↓ + 跳</b> · 攀爬 <b>↑ / ↓</b> · 喝水 <b>1 / 2</b> · 技能 <b>A / S</b> ·
+        商店 <b>Z</b> · 背包 <b>I</b>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
