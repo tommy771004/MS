@@ -1,0 +1,73 @@
+[
+  {
+    "itemId": 1002000,
+    "type": "EQUIP",
+    "name": "新手劍 Beginner Sword",
+    "icon": "icon_sword",
+    "reqLevel": 1,
+    "slot": "weapon",
+    "stats": { "incPAD": 15, "incSTR": 2 },
+    "maxStack": 1,
+    "buyPrice": 1500,
+    "sellPrice": 300
+  },
+  {
+    "itemId": 1002001,
+    "type": "EQUIP",
+    "name": "鋼劍 Steel Blade",
+    "icon": "icon_sword2",
+    "reqLevel": 5,
+    "slot": "weapon",
+    "stats": { "incPAD": 34, "incSTR": 4, "incDEX": 2 },
+    "maxStack": 1,
+    "buyPrice": 8000,
+    "sellPrice": 1600
+  },
+  {
+    "itemId": 1010000,
+    "type": "EQUIP",
+    "name": "皮帽 Leather Cap",
+    "icon": "icon_hat",
+    "reqLevel": 1,
+    "slot": "hat",
+    "stats": { "incMaxHP": 30, "incSTR": 1 },
+    "maxStack": 1,
+    "buyPrice": 1000,
+    "sellPrice": 200
+  },
+  {
+    "itemId": 2000000,
+    "type": "USE",
+    "name": "紅水 Red Potion",
+    "icon": "icon_potion_hp",
+    "consume": { "healHP": 80 },
+    "maxStack": 99,
+    "buyPrice": 15,
+    "sellPrice": 7
+  },
+  {
+    "itemId": 2000001,
+    "type": "USE",
+    "name": "藍水 Blue Potion",
+    "icon": "icon_potion_mp",
+    "consume": { "healMP": 50 },
+    "maxStack": 99,
+    "buyPrice": 18,
+    "sellPrice": 9
+  },
+  {
+    "itemId": 4000000,
+    "type": "ETC",
+    "name": "史萊姆球 Slime Bubble",
+    "icon": "icon_etc",
+    "maxStack": 99,
+    "sellPrice": 8
+  },
+  {
+    "itemId": 4031138,
+    "type": "ETC",
+    "name": "楓幣袋 Mesos Pouch",
+    "icon": "icon_coin",
+    "maxStack": 99
+  }
+]
