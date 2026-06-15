@@ -144,7 +144,7 @@ async function testIntegration(): Promise<void> {
   const target = monsters
     .map((m) => ({ m, d: Math.hypot(m.x - 200, m.y - 560) }))
     .sort((p, q) => p.d - q.d)[0].m;
-  check(target.d === undefined || true, `attacking monster oid ${target.oid} (id ${target.monsterId})`);
+  check(true, `attacking nearest monster oid ${target.oid} (id ${target.monsterId})`);
 
   let killed = false;
   let hits = 0;
@@ -181,6 +181,9 @@ async function testIntegration(): Promise<void> {
     const moved2 = B.waitFor(SendOp.PlayerMoved);
     A.sendOp(RecvOp.PlayerMove, (w) => w.writeShort(otherTarget.x).writeShort(otherTarget.y).writeByte(1));
     await moved2;
+
+    // Let the cooldown from the previous kill elapse so attack #1 is accepted.
+    await sleep(COMBAT.attackCooldownMs + 60);
 
     const firstDmg = A.waitFor(SendOp.MonsterDamaged, 2000);
     A.sendOp(RecvOp.PlayerAttack, (w) => w.writeInt(otherTarget.oid).writeInt(0));
