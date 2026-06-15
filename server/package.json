@@ -1,0 +1,12 @@
+{
+  "name": "maplestory-clone-server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Authoritative TCP game server for the MapleStory clone — a Node/TypeScript port of the RustMS architecture (crypt / packet / net / db). Educational use only.",
+  "type": "module",
+  "scripts": {
+    "start": "node --experimental-strip-types src/index.ts",
+    "test": "node --experimental-strip-types test/harness.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  }
+}
