@@ -1,0 +1,39 @@
+[
+  {
+    "monsterId": 100100,
+    "name": "綠水靈 Green Slime",
+    "texture": "mob_slime_green",
+    "level": 1,
+    "maxHP": 45,
+    "pdef": 4,
+    "touchDamage": 6,
+    "exp": 8,
+    "moveSpeed": 40,
+    "bodyWidth": 46,
+    "bodyHeight": 38,
+    "drops": [
+      { "itemId": 4031138, "chance": 0.7, "min": 2, "max": 9 },
+      { "itemId": 4000000, "chance": 0.5, "min": 1, "max": 2 },
+      { "itemId": 2000000, "chance": 0.18, "min": 1, "max": 1 }
+    ]
+  },
+  {
+    "monsterId": 100101,
+    "name": "紫菇菇 Violet Mushroom",
+    "texture": "mob_mush_violet",
+    "level": 4,
+    "maxHP": 110,
+    "pdef": 12,
+    "touchDamage": 14,
+    "exp": 22,
+    "moveSpeed": 55,
+    "bodyWidth": 52,
+    "bodyHeight": 48,
+    "drops": [
+      { "itemId": 4031138, "chance": 0.8, "min": 6, "max": 24 },
+      { "itemId": 2000001, "chance": 0.22, "min": 1, "max": 1 },
+      { "itemId": 1002001, "chance": 0.05, "min": 1, "max": 1 },
+      { "itemId": 1010000, "chance": 0.08, "min": 1, "max": 1 }
+    ]
+  }
+]
