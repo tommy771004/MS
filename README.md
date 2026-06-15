@@ -47,8 +47,15 @@ npm run typecheck  # types only
 - Ladder/rope **climbing**.
 - Strict **finite state machine** (`idle → walk → jump → prone → attack → climb`),
   see [`StateMachine`](./src/entities/StateMachine.ts).
-- **Paper-doll avatar**: torso / head / arm+weapon as separate layered parts; the
-  weapon swings from the arm anchor on attack (design.md §2.2).
+- **Paper-doll avatar** ([`Avatar`](./src/entities/Avatar.ts)): data-driven z-layers
+  modelled on maples.im / MapleSalon2's renderer.
+  - **z-order**: an ordered `zmap` layer list plus a composite-name resolver
+    (`capOverHair`, `…OverArm`, `…BelowBody`) that offsets a layer ±1 from a base.
+  - **slot-locks (`vslot`)**: the body is bare skin; shirt/pants/cap/weapon are worn
+    layers from each item's `worn` texture. An item's `vslot` codes claim "visible
+    slots", so a one-piece **overall** (`Ma`+`Pn`) hides the separate pants — a port
+    of MapleSalon2's `buildLock`/`refreshLock`. Equip the Green Overall from the bag
+    to see it. The weapon swings from the arm group on attack.
 
 **Phase 2 — Combat** ([`GameScene`](./src/scenes/GameScene.ts), [`Monster`](./src/entities/Monster.ts))
 - Patrolling **dummy monsters** with floating HP bars.
